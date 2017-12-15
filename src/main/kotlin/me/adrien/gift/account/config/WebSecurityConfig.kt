@@ -1,14 +1,11 @@
 package me.adrien.gift.account.config
 
-import me.adrien.gift.account.repositories.EventRepository
 import me.adrien.gift.account.repository.UserRepository
 import me.adrien.gift.account.security.JWTAuthenticationFilter
 import me.adrien.gift.account.security.JWTLoginFilter
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.data.mongodb.core.MongoOperations
-import org.springframework.http.HttpMethod
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
@@ -16,11 +13,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter
 import org.springframework.web.cors.CorsConfiguration
-import org.springframework.web.cors.CorsConfigurationSource
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource
-import java.util.*
-import org.springframework.http.HttpHeaders
-import org.springframework.web.filter.CorsFilter
 
 
 @Configuration
@@ -57,19 +50,6 @@ class WebSecurityConfig : WebSecurityConfigurerAdapter() {
                 // And filter other requests to check the presence of JWT in header
                 .addFilterBefore(JWTAuthenticationFilter(),
                         UsernamePasswordAuthenticationFilter::class.java)
-    }
-
-    @Bean
-    fun corsFilter(): CorsFilter {
-        val source = UrlBasedCorsConfigurationSource()
-        val config = CorsConfiguration()
-        config.allowCredentials = true
-        config.addAllowedOrigin("*")  // TODO: lock down before deploying
-        config.addAllowedHeader("*")
-        config.addExposedHeader(HttpHeaders.AUTHORIZATION)
-        config.addAllowedMethod("*")
-        source.registerCorsConfiguration("/**", config)
-        return CorsFilter(source)
     }
 
     @Throws(Exception::class)

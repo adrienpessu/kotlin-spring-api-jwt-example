@@ -1,0 +1,58 @@
+= Real life example of a Kotlin spring boot rest api secured with Jwt
+
+== setup
+
+[source,bash,subs="quotes"]
+----
+docker-compose up -d
+
+gradle build
+
+java -jar build/lib/
+
+----
+
+== Use
+
+==== login
+
+[source,kotlin,subs="quotes"]
+----
+curl -i -X POST \
+  http://localhost:8080/login \
+  -H 'cache-control: no-cache' \
+  -H 'content-type: application/json' \
+  -d '{
+	"username": "admin",
+	"password": "password"
+}'
+
+----
+
+==== post
+
+[source,kotlin,subs="quotes"]
+----
+
+curl -X POST \
+  http://localhost:8080/presents/ \
+  -H 'authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ7XCJlbWFpbFwiIDogXCJcIiwgXCJ1c2VybmFtZVwiIDogXCJhZG1pblwiLCBcInJvbGVcIiA6IFwiW1JPTEVfQURNSU5dXCJ9IiwiZXhwIjoxNTEyNjYwMzQyfQ.IqNa0gmeqxjLGTdtMD9eq3qrWRvWUmRhtRmn6MnsnEiwXoDjThHsS_h5VdIUa_toi9l_hJPRCjz3G3fLw2i7Cw' \
+  -H 'content-type: application/json' \
+  -d '{
+	"label": "Nintendo 64",
+	"childId": "adrien"
+}'
+
+----
+
+=== delete
+
+[source,kotlin,subs="quotes"]
+----
+curl -X DELETE \
+  http://localhost:8080/presents/45a5e821-8d91-4e96-8f7a-62a35729e356/ \
+  -H 'authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ7XCJlbWFpbFwiIDogXCJcIiwgXCJ1c2VybmFtZVwiIDogXCJhZG1pblwiLCBcInJvbGVcIiA6IFwiW1JPTEVfQURNSU5dXCJ9IiwiZXhwIjoxNTEyNjYwMzQyfQ.IqNa0gmeqxjLGTdtMD9eq3qrWRvWUmRhtRmn6MnsnEiwXoDjThHsS_h5VdIUa_toi9l_hJPRCjz3G3fLw2i7Cw' \
+  -H 'content-type: application/json'
+
+----
+

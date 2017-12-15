@@ -1,0 +1,12 @@
+# Only for dev
+data.present:
+  image: mongo:3.4.9
+  command: --break-mongo
+db.present:
+  image: mongo:3.4.9
+  volumes_from:
+    - data.present
+  ports:
+    - "27017:27017"
+  command: --smallfiles --rest
+
